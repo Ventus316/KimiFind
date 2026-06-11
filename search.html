@@ -21,13 +21,20 @@
                     <button class="px-8 py-3 bg-twilight text-white font-bold rounded-xl hover:bg-gray-800 transition">搜尋</button>
                 </div>
                 
-                <div class="flex flex-wrap gap-2">
-                    <span class="px-4 py-1.5 bg-musubi text-white text-sm rounded-full cursor-pointer shadow-sm">全部地區</span>
-                    <span class="px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm rounded-full cursor-pointer transition">桃園區</span>
-                    <span class="px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm rounded-full cursor-pointer transition">中壢區</span>
-                    <span class="px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm rounded-full cursor-pointer transition">八德區</span>
-                    <span class="px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm rounded-full cursor-pointer transition">飾品</span>
-                    <span class="px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm rounded-full cursor-pointer transition">書籍</span>
+                <div class="flex flex-wrap gap-2 mb-3 filter-group" data-group="type-status">
+                    <span class="filter-pill px-4 py-1.5 bg-musubi text-white text-sm rounded-full cursor-pointer shadow-sm active" data-val="全部">全部狀態</span>
+                    <span class="filter-pill px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm rounded-full cursor-pointer transition" data-val="遺失">只看遺失</span>
+                    <span class="filter-pill px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm rounded-full cursor-pointer transition" data-val="拾獲">只看拾獲</span>
+                    <span class="filter-pill px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm rounded-full cursor-pointer transition" data-val="尋找中">尋找中</span>
+                    <span class="filter-pill px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm rounded-full cursor-pointer transition" data-val="已結案">已結案</span>
+                </div>
+                
+                <div class="flex flex-wrap gap-2 filter-group" data-group="category">
+                    <span class="filter-pill px-4 py-1.5 bg-musubi text-white text-sm rounded-full cursor-pointer shadow-sm active" data-val="全部">全部地區/分類</span>
+                    <span class="filter-pill px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm rounded-full cursor-pointer transition" data-val="桃園區">桃園區</span>
+                    <span class="filter-pill px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm rounded-full cursor-pointer transition" data-val="中壢區">中壢區</span>
+                    <span class="filter-pill px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm rounded-full cursor-pointer transition" data-val="飾品">飾品</span>
+                    <span class="filter-pill px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm rounded-full cursor-pointer transition" data-val="書籍">書籍</span>
                 </div>
             </div>
 

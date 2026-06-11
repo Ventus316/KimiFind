@@ -1,129 +1,128 @@
 // js/search.js
 
 $(document).ready(function() {
-    // 檢查資料庫是否載入
     if (typeof mockItems === 'undefined') {
         console.error('找不到假資料庫 (mockItems)！');
         return;
     }
 
-    // 取得 DOM 節點 (利用先前寫好的 HTML 結構特徵)
+    // 將 localStorage 中的使用者新增資料合併進 mockItems
+    const localReportsStr = localStorage.getItem('kimiReports');
+    const allItems = localReportsStr ? mockItems.concat(JSON.parse(localReportsStr)) : mockItems;
+
     const $searchInput = $('input[type="text"]');
     const $searchBtn = $('button:contains("搜尋")');
-    const $filterPills = $('span.cursor-pointer');
     const $resultsContainer = $('#search-results');
 
-    // 狀態變數：紀錄目前的搜尋條件
-    let currentKeyword = '';
-    let currentFilter = '全部地區';
+    // 狀態變數：紀錄多維度的搜尋條件
+    let filters = {
+        keyword: '',
+        typeStatus: '全部',
+        category: '全部'
+    };
 
-    // 初始化：網頁剛載入時，渲染全部資料
-    renderSearchResults(currentKeyword, currentFilter);
+    renderSearchResults();
 
-    // ==========================================
-    // 事件監聽區
-    // ==========================================
-
-    // 1. 點擊「搜尋」按鈕
+    // 1. 搜尋框事件
     $searchBtn.on('click', function() {
-        currentKeyword = $searchInput.val().trim();
-        renderSearchResults(currentKeyword, currentFilter);
+        filters.keyword = $searchInput.val().trim();
+        renderSearchResults();
     });
-
-    // 2. 在搜尋框按下「Enter」鍵也能觸發
     $searchInput.on('keypress', function(e) {
-        if (e.which === 13) { // 13 是 Enter 鍵的 KeyCode
-            currentKeyword = $(this).val().trim();
-            renderSearchResults(currentKeyword, currentFilter);
+        if (e.which === 13) {
+            filters.keyword = $(this).val().trim();
+            renderSearchResults();
         }
     });
 
-    // 3. 點擊「篩選標籤 (Pills)」
-    $filterPills.on('click', function() {
-        const clickedText = $(this).text().trim();
-        currentFilter = clickedText;
+    // 2. 點擊篩選標籤事件 (支援多群組獨立切換)
+    $('.filter-pill').on('click', function() {
+        const $this = $(this);
+        const group = $this.closest('.filter-group').data('group');
+        const val = $this.data('val');
 
-        // 視覺回饋：切換 Tailwind 樣式 (結繩紅 / 灰底)
-        $filterPills.removeClass('bg-musubi text-white shadow-sm').addClass('bg-gray-100 text-gray-600 hover:bg-gray-200');
-        $(this).removeClass('bg-gray-100 text-gray-600 hover:bg-gray-200').addClass('bg-musubi text-white shadow-sm');
+        // 更新該群組的 UI 樣式
+        $this.siblings().removeClass('bg-musubi text-white shadow-sm active').addClass('bg-gray-100 text-gray-600');
+        $this.removeClass('bg-gray-100 text-gray-600').addClass('bg-musubi text-white shadow-sm active');
 
-        // 觸發重新渲染
-        renderSearchResults(currentKeyword, currentFilter);
+        // 更新篩選條件
+        if (group === 'type-status') filters.typeStatus = val;
+        if (group === 'category') filters.category = val;
+
+        renderSearchResults();
     });
 
-    // ==========================================
-    // 核心渲染邏輯 (動態內容替換)
-    // ==========================================
-
-    function renderSearchResults(keyword, filter) {
-        // 先將容器內容以淡出動畫隱藏，營造流暢切換感
+    // 3. 核心渲染與過濾邏輯
+    function renderSearchResults() {
         $resultsContainer.fadeOut(200, function() {
-            
-            // 🌟 關鍵修復 1：把外層正確的 DOM 元素存入變數 $container
             const $container = $(this);
-            
-            // 動畫結束後，清空舊節點
             $container.empty();
 
-            // 執行資料篩選
-            const filteredItems = mockItems.filter(function(item) {
-                const matchKeyword = keyword === '' || 
-                                     item.name.includes(keyword) || 
-                                     item.description.includes(keyword);
+            // 執行多條件交叉比對
+            const filteredItems = allItems.filter(function(item) {
+                // 檢查關鍵字
+                const matchKeyword = filters.keyword === '' || 
+                                     item.name.includes(filters.keyword) || 
+                                     item.description.includes(filters.keyword);
                 
-                const matchFilter = filter === '全部地區' || 
-                                    item.district === filter || 
-                                    item.category === filter;
+                // 檢查類型或狀態
+                const matchTypeStatus = filters.typeStatus === '全部' || 
+                                        item.type === filters.typeStatus || 
+                                        item.status === filters.typeStatus;
 
-                return matchKeyword && matchFilter;
+                // 檢查地區或分類
+                const matchCategory = filters.category === '全部' || 
+                                      item.district === filters.category || 
+                                      item.category === filters.category;
+
+                return matchKeyword && matchTypeStatus && matchCategory;
             });
 
-            // 判斷是否有符合條件的資料
             if (filteredItems.length === 0) {
-                const emptyHTML = `
+                $container.append(`
                     <div class="col-span-1 md:col-span-3 lg:col-span-4 text-center py-16">
                         <div class="text-4xl mb-4">🌌</div>
                         <h3 class="text-xl font-bold text-twilight mb-2">這裡沒有星星的軌跡</h3>
                         <p class="text-gray-500">找不到符合條件的遺失物，換個關鍵字或標籤試試看吧！</p>
                     </div>
-                `;
-                $container.append(emptyHTML);
+                `);
             } else {
-                // 🌟 關鍵修復 2：補回你漏掉的 forEach 開頭
-                filteredItems.forEach(function(item) {
+                // 將資料反轉，讓最新的（如 localStorage 剛新增的）排在最前面
+                filteredItems.reverse().forEach(function(item) {
+                    
+                    // 動態決定標籤顏色：尋找中用紅色系，已結案用綠色系
                     let statusColorClass = item.status === '尋找中' 
-                            ? 'bg-white/90 text-twilight' 
-                            : 'bg-green-100 text-green-700';
+                            ? 'bg-musubi text-white' 
+                            : 'bg-green-600 text-white';
+
+                    // 結合「遺失/拾獲」與「狀態」顯示在卡片右上角
+                    const badgeText = `${item.type} | ${item.status}`;
 
                     const cardHTML = `
-                        <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300 border border-gray-100">
+                        <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300 border border-gray-100 flex flex-col">
                             <div class="h-48 bg-gray-200 relative overflow-hidden">
-                                <img src="${item.imageUrl}" alt="${item.name}" class="w-full h-full object-cover">
+                                <img src="${item.imageUrl || 'https://via.placeholder.com/400x300?text=No+Image'}" alt="${item.name}" class="w-full h-full object-cover">
                                 
-                                <div class="absolute top-3 right-3 ${statusColorClass} backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold shadow-sm">
-                                    ${item.status}
+                                <div class="absolute top-3 right-3 ${statusColorClass} backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold shadow-sm">
+                                    ${badgeText}
                                 </div>
                             </div>
-                            <div class="p-5">
+                            <div class="p-5 flex-1 flex flex-col">
                                 <div class="text-xs text-musubi font-bold mb-1">${item.category} • ${item.district}</div>
                                 <h3 class="text-lg font-bold text-gray-800 mb-2">${item.name}</h3>
                                 <p class="text-sm text-gray-500 mb-4 line-clamp-2">${item.description}</p>
-                                <a href="detail.html?id=${item.id}" class="block text-center w-full py-2 bg-gray-50 text-twilight font-bold rounded-lg hover:bg-gray-100 transition">
-                                    查看詳情
-                                </a>
+                                <div class="mt-auto pt-4 border-t border-gray-50">
+                                    <a href="detail.html?id=${item.id}" class="block text-center w-full py-2 bg-gray-50 text-twilight font-bold rounded-lg hover:bg-gray-100 transition">
+                                        查看詳情
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     `;
-                    // 🌟 關鍵修復 3：統一使用 $container，就不會有 this 指向錯誤的問題
                     $container.append(cardHTML);
                 });
             }
-
-            // 新節點附加完畢後，執行淡入動畫
             $container.fadeIn(300);
         });
     }
-
-    // 新節點附加完畢後，執行淡入動畫
-    $(this).fadeIn(300);
 });

@@ -20,32 +20,51 @@
                 <p class="text-center text-gray-500 mb-8 text-sm">每一筆登記，都有可能牽起一段失而復得的緣分。</p>
 
                 <form class="space-y-6">
+                    <div class="mb-6">
+                        <label class="block text-sm font-bold text-gray-700 mb-2">這是一筆什麼樣的紀錄？</label>
+                        <select id="item-type" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-musubi bg-white font-bold text-twilight">
+                            <option value="遺失">💔 我弄丟了物品 (尋找失物)</option>
+                            <option value="拾獲">✨ 我撿到了物品 (尋找失主)</option>
+                        </select>
+                    </div>
+                    
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-2">物品名稱</label>
-                            <input type="text" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-musubi" placeholder="例如：黑框眼鏡">
+                            <input type="text" id="item-name" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-musubi" placeholder="例如：黑框眼鏡">
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-2">物品類別</label>
-                            <select class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-musubi bg-white">
+                            <select id="item-category" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-musubi bg-white">
                                 <option>飾品</option><option>書籍</option><option>電子產品</option><option>文具</option>
                             </select>
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-2">拾獲/遺失地點 (行政區)</label>
-                        <select class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-musubi bg-white">
-                            <option>桃園區</option><option>中壢區</option><option>八德區</option>
-                        </select>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">拾獲/遺失地點 (行政區)</label>
+                            <select id="item-district" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-musubi bg-white">
+                                <option>桃園區</option><option>中壢區</option><option>八德區</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">聯繫資訊 (Line ID / 手機)</label>
+                            <input type="text" id="item-contact" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-musubi" placeholder="例如：0912-345-678 或 Line: myid">
+                        </div>
                     </div>
 
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-2">詳細特徵描述</label>
-                        <textarea rows="4" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-musubi" placeholder="請描述物品的特徵、顏色、品牌等..."></textarea>
+                        <textarea id="item-desc" rows="4" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-musubi" placeholder="請描述物品的特徵、顏色、品牌等..."></textarea>
                     </div>
 
-                    <button type="button" class="w-full py-4 bg-musubi text-white font-bold rounded-xl shadow-md hover:bg-red-600 transition text-lg mt-4">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">上傳現場圖片</label>
+                        <input type="file" id="item-image" accept="image/*" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-musubi bg-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-musubi file:text-white hover:file:bg-red-600 transition cursor-pointer">
+                    </div>
+
+                    <button type="button" id="submit-btn" class="w-full py-4 bg-musubi text-white font-bold rounded-xl shadow-md hover:bg-red-600 transition text-lg mt-4">
                         送出資料
                     </button>
                 </form>
