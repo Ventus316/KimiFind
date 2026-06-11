@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>桃園拾物 KimiFind - 找回你遺落的時光</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // 設定 KimiFind 專屬的設計系統色彩
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        musubi: '#E63946', // 結繩紅
+                        twilight: '#1D3557', // 星空深藍
+                        dusk: '#457B9D' // 傍晚灰藍
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/data.js"></script>
+</head>
+<body class="font-[Noto Sans TC] bg-gray-50 text-gray-800 antialiased overflow-x-hidden">
+
+    <nav class="fixed w-full z-50 bg-white/70 backdrop-blur-md shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="index.html" class="text-xl font-bold text-twilight tracking-widest">桃園拾物 <span class="text-musubi text-sm">KimiFind</span></a>
+            <div class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="search.html" class="hover:text-musubi transition-colors">失物搜尋</a>
+                <a href="report.html" class="hover:text-musubi transition-colors">失物上報</a>
+                <a href="guide.html" class="hover:text-musubi transition-colors">歸還認領</a>
+                <a href="dashboard.html" class="hover:text-musubi transition-colors">個人後台</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="relative min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-twilight via-dusk to-blue-200">
+        <div class="text-center z-10 px-4">
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 tracking-widest drop-shadow-lg">你在尋找什麼？</h1>
+            <p class="text-lg text-gray-200 mb-8 max-w-2xl mx-auto">或許它正停留在桃園的某個角落，等待與你再次相遇。</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="search.html" class="px-8 py-3 bg-white text-twilight font-bold rounded-full shadow-lg hover:bg-gray-100 transition-transform transform hover:-translate-y-1">尋找遺失物</a>
+                <a href="report.html" class="px-8 py-3 bg-musubi text-white font-bold rounded-full shadow-lg hover:bg-red-600 transition-transform transform hover:-translate-y-1">登記拾獲物</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="max-w-7xl mx-auto px-4 py-16">
+        <h2 class="text-2xl font-bold text-center text-twilight mb-10">☄️ 剛落下的星辰 (最新遺失物)</h2>
+        <div id="latest-items-container" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            </div>
+    </section>
+
+    <footer class="bg-twilight text-white text-center py-6 text-sm">
+        <p>&copy; 2026 桃園拾物 KimiFind. All rights reserved.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

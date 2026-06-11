@@ -1,0 +1,33 @@
+<main class="pt-24 pb-16 min-h-screen bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white p-6 rounded-2xl shadow-sm mb-8">
+                <div class="flex flex-col md:flex-row gap-4 mb-4">
+                    <input type="text" placeholder="輸入關鍵字，例如：髮圈、課本..." class="flex-1 w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-musubi focus:border-transparent">
+                    <button class="px-8 py-3 bg-twilight text-white font-bold rounded-xl hover:bg-gray-800 transition">搜尋</button>
+                </div>
+                
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-4 py-1.5 bg-musubi text-white text-sm rounded-full cursor-pointer shadow-sm">全部地區</span>
+                    <span class="px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm rounded-full cursor-pointer transition">桃園區</span>
+                    <span class="px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm rounded-full cursor-pointer transition">中壢區</span>
+                    <span class="px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm rounded-full cursor-pointer transition">八德區</span>
+                    <span class="px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm rounded-full cursor-pointer transition">飾品</span>
+                    <span class="px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm rounded-full cursor-pointer transition">書籍</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6" id="search-results">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300 border border-gray-100">
+                    <div class="h-48 bg-gray-200 relative">
+                        <div class="absolute top-3 right-3 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-twilight">尋找中</div>
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs text-musubi font-bold mb-1">飾品 • 桃園區</div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">紅色結繩髮圈</h3>
+                        <p class="text-sm text-gray-500 mb-4 line-clamp-2">手工編織的紅色結繩，對失主來說是非常重要的物品...</p>
+                        <a href="detail.html" class="block text-center w-full py-2 bg-gray-50 text-twilight font-bold rounded-lg hover:bg-gray-100 transition">查看詳情</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
