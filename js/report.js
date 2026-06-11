@@ -6,22 +6,23 @@ $(document).ready(function() {
     if (!currentUserStr) {
         alert('請先登入才能使用上報功能喔！');
         window.location.href = 'login.html';
-        return; // 終止後續執行
+        return; 
     }
     
     // 將字串轉回 JSON 物件，取得當前使用者資訊
     const currentUser = JSON.parse(currentUserStr);
 
-    // 取得表單節點
     const $submitBtn = $('#submit-btn');
-    // 這次多抓了新增的 input 進行驗證
     const $textInputs = $('input[type="text"], textarea'); 
 
     $submitBtn.on('click', function() {
         let isValid = true;
 
-        // 1. 簡易必填驗證 (不含圖片，圖片允許為空)
+        // 1. 簡易必填驗證
         $textInputs.each(function() {
+            // 排除檔案上傳欄位的驗證，因為我們現在要寫死預設圖片
+            if ($(this).attr('type') === 'file') return;
+
             const val = $(this).val().trim();
             if (val === '') {
                 $(this).removeClass('border-gray-200 focus:border-musubi').addClass('border-red-500 bg-red-50');
@@ -38,26 +39,28 @@ $(document).ready(function() {
             return; 
         }
 
-        // 🌟 2. 核心邏輯：將表單數據與「當前登入者」串聯
-        // 抓取現有的自訂上報清單，如果沒有就建立一個空陣列
+        // 2. 核心邏輯：將表單數據與「當前登入者」串聯
         let userReports = JSON.parse(localStorage.getItem('kimiReports')) || [];
 
         // 建立一筆新的物品資料
         const newItem = {
             id: 'item_' + Date.now(),
-            type: $('#item-type').val(), // 📍 取得是「遺失」還是「拾獲」
+            type: $('#item-type').val(),
             name: $('#item-name').val().trim(),
             category: $('#item-category').val(),
             district: $('#item-district').val(),
             contact: $('#item-contact').val().trim(),
             description: $('#item-desc').val().trim(),
-            status: '尋找中', // 剛發布預設一定是尋找中
+            status: '尋找中',
             date: new Date().toISOString().split('T')[0],
             publisherEmail: currentUser.email,
-            publisherName: currentUser.name
+            publisherName: currentUser.name,
+            
+            // 🌟 關鍵修改：強制寫入專案底下的預設圖片路徑
+            imageUrl: 'images/items/default.jpg'
         };
 
-        // 把新資料推入陣列，並存回 localStorage 模擬寫入資料庫
+        // 把新資料推入陣列，並存回 localStorage
         userReports.push(newItem);
         localStorage.setItem('kimiReports', JSON.stringify(userReports));
 
@@ -77,7 +80,7 @@ $(document).ready(function() {
 
     // 貼心設計：輸入文字時即時消除紅色警告邊框
     $textInputs.on('input', function() {
-        if ($(this).val().trim() !== '') {
+        if ($(this).attr('type') !== 'file' && $(this).val().trim() !== '') {
             $(this).removeClass('border-red-500 bg-red-50').addClass('border-gray-200 focus:border-musubi');
         }
     });
