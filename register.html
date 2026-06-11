@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>註冊 | KimiFind</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { theme: { extend: { colors: { musubi: '#E63946', twilight: '#1D3557', dusk: '#457B9D' } } } }</script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/nav.js" defer></script>
+</head>
+<body class="bg-gray-50">
+    <div id="nav-placeholder"></div>
+
+    <main class="min-h-screen flex items-center justify-center bg-gradient-to-br from-twilight via-dusk to-blue-200 px-4 pt-16">
+        <div class="w-full max-w-md bg-white/90 backdrop-blur-lg p-8 rounded-3xl shadow-2xl">
+            <div class="text-center mb-6">
+                <h1 class="text-3xl font-bold text-twilight tracking-widest mb-2">註冊 KimiFind</h1>
+                <p class="text-sm text-gray-600">加入我們，找回遺落的時光</p>
+            </div>
+
+            <form id="register-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">您的暱稱</label>
+                    <input type="text" id="reg-name" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-musubi" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">電子郵件</label>
+                    <input type="email" id="reg-email" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-musubi" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">設定密碼</label>
+                    <input type="password" id="reg-pwd" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-musubi" required>
+                </div>
+                
+                <button type="submit" id="reg-btn" class="w-full py-3 bg-musubi text-white font-bold rounded-xl shadow-md hover:bg-red-600 transition mt-4">
+                    完成註冊
+                </button>
+            </form>
+            <div class="mt-6 text-center text-sm text-gray-600">
+                已經有帳號了嗎？ <a href="login.html" class="text-twilight font-bold hover:underline">立即登入</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        $(document).ready(function() {
+            $('#register-form').on('submit', function(e) {
+                e.preventDefault();
+                
+                // 模擬註冊過程
+                const $btn = $('#reg-btn');
+                $btn.text('處理中...').prop('disabled', true).addClass('bg-gray-400');
+
+                setTimeout(() => {
+                    alert('註冊成功！請使用新帳號登入。');
+                    window.location.href = 'login.html'; // 註冊完跳轉登入
+                }, 1000);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,6 +1,12 @@
 // js/dashboard.js
 
 $(document).ready(function() {
+
+    if (!localStorage.getItem('kimiUser')) {
+        alert('請先登入才能使用此功能！');
+        window.location.href = 'login.html';
+    }
+    
     // 定位列表容器
     const $listContainer = $('.bg-white.rounded-2xl.shadow-sm.border');
 

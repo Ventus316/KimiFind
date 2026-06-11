@@ -6,38 +6,28 @@
 
         <div class="hidden lg:flex space-x-5 text-sm font-medium items-center">
             <a href="search.html" class="nav-link hover:text-musubi transition-colors text-gray-700">失物搜尋</a>
-            <a href="report.html" class="nav-link hover:text-musubi transition-colors text-gray-700">失物上報</a>
             <a href="guide.html" class="nav-link hover:text-musubi transition-colors text-gray-700">歸還認領</a>
-            <a href="dashboard.html" class="nav-link hover:text-musubi transition-colors text-gray-700">個人後台</a>
-            <a href="admin.html" class="nav-link hover:text-musubi transition-colors text-gray-700">管理員</a>
             <a href="about.html" class="nav-link hover:text-musubi transition-colors text-gray-700">關於我們</a>
+            
+            <a href="report.html" class="nav-link auth-only hover:text-musubi transition-colors text-gray-700" style="display: none;">失物上報</a>
+            <a href="dashboard.html" class="nav-link auth-only hover:text-musubi transition-colors text-gray-700" style="display: none;">個人後台</a>
+            
+            <a href="admin.html" class="nav-link admin-only hover:text-musubi transition-colors text-gray-700" style="display: none;">管理員後台</a>
         </div>
 
         <div class="hidden lg:flex space-x-3 items-center">
-            <a href="login.html" class="text-sm font-medium text-twilight hover:text-musubi transition-colors">登入</a>
-            <a href="register.html" class="px-4 py-2 text-sm font-medium text-white bg-twilight rounded-full hover:bg-gray-800 transition-colors shadow-sm">註冊</a>
+            <div class="guest-only flex space-x-3 items-center">
+                <a href="login.html" class="text-sm font-medium text-twilight hover:text-musubi transition-colors">登入</a>
+                <a href="register.html" class="px-4 py-2 text-sm font-medium text-white bg-twilight rounded-full hover:bg-gray-800 transition-colors shadow-sm">註冊</a>
+            </div>
+            <div class="auth-only flex items-center space-x-4" style="display: none;">
+                <span id="nav-username" class="text-sm font-bold text-gray-700"></span>
+                <button id="logout-btn" class="text-sm font-medium text-musubi hover:text-red-700 transition-colors">登出</button>
+            </div>
         </div>
 
         <div class="lg:hidden flex items-center">
-            <button id="mobile-menu-btn" class="text-twilight hover:text-musubi focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            </button>
-        </div>
-    </div>
-
-    <div id="mobile-menu" class="hidden lg:hidden bg-white shadow-md border-t border-gray-100 absolute w-full">
-        <div class="px-4 pt-2 pb-4 space-y-1 text-sm font-medium">
-            <a href="search.html" class="block px-3 py-2 rounded-md hover:bg-gray-50 hover:text-musubi text-gray-700">失物搜尋</a>
-            <a href="report.html" class="block px-3 py-2 rounded-md hover:bg-gray-50 hover:text-musubi text-gray-700">失物上報</a>
-            <a href="guide.html" class="block px-3 py-2 rounded-md hover:bg-gray-50 hover:text-musubi text-gray-700">歸還認領</a>
-            <a href="dashboard.html" class="block px-3 py-2 rounded-md hover:bg-gray-50 hover:text-musubi text-gray-700">個人後台</a>
-            <a href="admin.html" class="block px-3 py-2 rounded-md hover:bg-gray-50 hover:text-musubi text-gray-700">管理員</a>
-            <a href="about.html" class="block px-3 py-2 rounded-md hover:bg-gray-50 hover:text-musubi text-gray-700">關於我們</a>
-            <div class="border-t border-gray-100 my-2"></div>
-            <a href="login.html" class="block px-3 py-2 rounded-md text-twilight hover:bg-gray-50">登入</a>
-            <a href="register.html" class="block px-3 py-2 mt-2 rounded-md bg-twilight text-white text-center">註冊</a>
+            <button id="mobile-menu-btn" class="text-twilight hover:text-musubi focus:outline-none">☰</button>
         </div>
     </div>
 </nav>

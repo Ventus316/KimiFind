@@ -1,4 +1,4 @@
-readme_content = """# 🌌 桃園拾物 KimiFind - 桃園在地遺失物媒合平台
+🌌 桃園拾物 KimiFind - 桃園在地遺失物媒合平台
 
 ![Taoyuan KimiFind Banner](https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1200&q=80)
 

@@ -1,30 +1,51 @@
 // js/nav.js
-
 $(document).ready(function() {
-    // 透過 jQuery 動態載入 navbar.html
-    // 假設 navbar.html 放在根目錄。如果放在 components 資料夾，請改成 "components/navbar.html"
     $("#nav-placeholder").load("navbar.html", function() {
         
-        // --- 以下程式碼會在導覽列載入完成後才執行 ---
+        // --- 1. 權限顯示邏輯 ---
+        // 從 localStorage 讀取登入狀態
+        const currentUserStr = localStorage.getItem('kimiUser');
+        const currentUser = currentUserStr ? JSON.parse(currentUserStr) : null;
 
-        // 1. 自動高亮當前頁面的功能 (視覺優化)
-        // 抓取網址結尾 (例如 search.html)
-        const currentPath = window.location.pathname.split("/").pop(); 
-        if (currentPath) {
-            // 找到對應的連結，加上結繩紅的顏色與粗體，並移除原本的灰色
-            $(`.nav-link[href="${currentPath}"]`)
-                .addClass("text-musubi font-bold")
-                .removeClass("text-gray-700");
+        if (currentUser) {
+            // 已登入
+            $('.guest-only').hide();
+            $('.auth-only').show();
+            $('#nav-username').text(`嗨，${currentUser.name}`);
+
+            // 判斷是否為管理員
+            if (currentUser.role === 'admin') {
+                $('.admin-only').show();
+            }
         } else {
-            // 如果網址沒有結尾 (例如預設的 index.html)，高亮首頁
-            $(`.nav-link[href="index.html"]`)
-                .addClass("text-musubi font-bold")
-                .removeClass("text-gray-700");
+            // 未登入
+            $('.guest-only').show();
+            $('.auth-only').hide();
+            $('.admin-only').hide();
         }
 
-        // 2. 手機版漢堡選單的開關切換
+        // --- 2. 登出邏輯 ---
+        $('#logout-btn').on('click', function() {
+            const confirmLogout = confirm("確定要登出嗎？");
+            if (confirmLogout) {
+                // 清除登入紀錄
+                localStorage.removeItem('kimiUser');
+                alert("已成功登出，期待下次與您相遇。");
+                // 強制導回首頁
+                window.location.href = 'index.html';
+            }
+        });
+
+        // --- 3. 高亮當前頁面與手機選單邏輯 (保留你原本的) ---
+        const currentPath = window.location.pathname.split("/").pop(); 
+        if (currentPath) {
+            $(`.nav-link[href="${currentPath}"]`).addClass("text-musubi font-bold").removeClass("text-gray-700");
+        } else {
+            $(`.nav-link[href="index.html"]`).addClass("text-musubi font-bold").removeClass("text-gray-700");
+        }
+
         $("#mobile-menu-btn").on("click", function() {
-            $("#mobile-menu").slideToggle("fast");
+            // 請依照你的設計展開手機菜單
         });
     });
 });

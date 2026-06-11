@@ -1,6 +1,12 @@
 // js/report.js
 
 $(document).ready(function() {
+
+    if (!localStorage.getItem('kimiUser')) {
+        alert('請先登入才能使用此功能！');
+        window.location.href = 'login.html';
+    }
+
     // 取得表單與按鈕節點
     const $reportForm = $('form');
     const $submitBtn = $('button:contains("送出資料")');
