@@ -106,7 +106,10 @@ $(document).ready(function() {
                 `;
             } else {
                 actionButtons = `
-                    <button class="text-gray-400 hover:text-twilight p-2 transition bg-white rounded-full hover:bg-gray-200 shadow-sm edit-btn" data-id="${item.id}" title="修改名稱">
+                    <a href="detail.html?id=${item.id}" class="text-gray-400 hover:text-twilight p-2 transition bg-white rounded-full hover:bg-gray-200 shadow-sm" title="查看詳情">
+                        👁️
+                    </a>
+                    <button class="text-gray-400 hover:text-twilight p-2 transition bg-white rounded-full hover:bg-gray-200 shadow-sm edit-btn" data-id="${item.id}" title="修改內容">
                         ✏️
                     </button>
                     <button class="text-gray-400 hover:text-musubi p-2 transition bg-white rounded-full hover:bg-red-50 shadow-sm delete-btn" data-id="${item.id}" title="刪除紀錄">
@@ -153,19 +156,60 @@ $(document).ready(function() {
         }
     });
 
-    // 4. 事件代理：編輯名稱 (發布紀錄專用)
+    // 4. 事件代理：打開編輯 Modal (發布紀錄專用)
     $listContainer.on('click', '.edit-btn', function() {
         const itemId = $(this).data('id');
         let userReports = JSON.parse(localStorage.getItem('kimiReports')) || [];
+        const item = userReports.find(i => i.id === itemId);
         
+        if (item) {
+            // 將舊資料填入 Modal 表單
+            $('#edit-id').val(item.id);
+            $('#edit-name').val(item.name);
+            $('#edit-desc').val(item.description);
+            
+            // 顯示 Modal 並觸發 Tailwind 淡入動畫
+            $('#edit-modal').removeClass('hidden').addClass('flex');
+            setTimeout(() => {
+                $('#edit-modal').removeClass('opacity-0');
+                $('#edit-modal-content').removeClass('scale-95').addClass('scale-100');
+            }, 10);
+        }
+    });
+
+    // 關閉 Modal 的共用函式
+    function closeModal() {
+        $('#edit-modal').addClass('opacity-0');
+        $('#edit-modal-content').removeClass('scale-100').addClass('scale-95');
+        setTimeout(() => {
+            $('#edit-modal').addClass('hidden').removeClass('flex');
+        }, 300); // 等待 Tailwind 的 300ms 動畫結束後再隱藏
+    }
+
+    // 點擊「取消」關閉視窗
+    $('#cancel-edit-btn').on('click', closeModal);
+
+    // 點擊「儲存修改」寫入 localStorage
+    $('#save-edit-btn').on('click', function() {
+        const itemId = $('#edit-id').val();
+        const newName = $('#edit-name').val().trim();
+        const newDesc = $('#edit-desc').val().trim();
+        
+        if (newName === '' || newDesc === '') {
+            alert('名稱與描述都不能為空白喔！');
+            return;
+        }
+
+        let userReports = JSON.parse(localStorage.getItem('kimiReports')) || [];
         const itemIndex = userReports.findIndex(i => i.id === itemId);
+        
         if (itemIndex !== -1) {
-            const newName = prompt('請輸入新的物品名稱：', userReports[itemIndex].name);
-            if (newName && newName.trim() !== '') {
-                userReports[itemIndex].name = newName.trim();
-                localStorage.setItem('kimiReports', JSON.stringify(userReports));
-                renderDashboard();
-            }
+            userReports[itemIndex].name = newName;
+            userReports[itemIndex].description = newDesc;
+            localStorage.setItem('kimiReports', JSON.stringify(userReports));
+            
+            closeModal();
+            renderDashboard(); // 重新渲染後台畫面，立即看到修改結果
         }
     });
 

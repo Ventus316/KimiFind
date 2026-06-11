@@ -21,7 +21,9 @@ $(document).ready(function() {
             $('h1').text(currentItem.name);
             $('p.text-gray-500').html(`<span class="text-musubi">📍 ${currentItem.location || currentItem.district}</span> | ${currentItem.date}`);
             $('.prose p:first').text(currentItem.description);
-            $('.prose p.text-sm').html(`發布者：${currentItem.publisherName || '系統預設'}<br>類別：${currentItem.category}<br>行政區：${currentItem.district}`);
+            const contactInfo = currentItem.contact ? `<br><span class="text-musubi font-bold">聯繫方式：${currentItem.contact}</span>` : '';
+
+            $('.prose p.text-sm').html(`發布者：${currentItem.publisherName || '系統預設'}<br>類別：${currentItem.category}<br>行政區：${currentItem.district}${contactInfo}`);
 
             const $statusBadge = $('.absolute.top-4.left-4');
             $statusBadge.text(`${currentItem.type} | ${currentItem.status}`);
