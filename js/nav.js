@@ -3,25 +3,23 @@ $(document).ready(function() {
     $("#nav-placeholder").load("navbar.html", function() {
         
         // --- 1. 權限顯示邏輯 ---
-        // 從 localStorage 讀取登入狀態
         const currentUserStr = localStorage.getItem('kimiUser');
         const currentUser = currentUserStr ? JSON.parse(currentUserStr) : null;
 
         if (currentUser) {
-            // 已登入
             $('.guest-only').hide();
             $('.auth-only').show();
             $('#nav-username').text(`嗨，${currentUser.name}`);
 
-            // 判斷是否為管理員
+            // 🌟 變更點：判斷身分，設定點擊名字後跳轉的頁面
             if (currentUser.role === 'admin') {
-                $('.admin-only').show();
+                $('#nav-username').attr('href', 'admin.html');
+            } else {
+                $('#nav-username').attr('href', 'dashboard.html');
             }
         } else {
-            // 未登入
             $('.guest-only').show();
             $('.auth-only').hide();
-            $('.admin-only').hide();
         }
 
         // --- 2. 登出邏輯 ---
