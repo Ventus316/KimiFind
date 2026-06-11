@@ -12,9 +12,10 @@ const mockItems = [
     "date": "2026-06-10",
     "description": "手工編織的紅色結繩，對失主來說是非常重要的物品，希望能盡快找回。",
     "imageUrl": "images/items/musubi.avif",
-    // 📍 綁定給一般用戶 (測試帳號)
     "publisherEmail": "user@kimi.com",
-    "publisherName": "一般探索者"
+    "publisherName": "一般探索者",
+    // 📍 新增聯絡資訊
+    "contact": "Line ID: kimi_user123" 
   },
   {
     "id": "item_002",
@@ -27,9 +28,10 @@ const mockItems = [
     "date": "2026-06-08",
     "description": "課本內頁有許多手寫筆記與插畫，封面寫著三年二班。",
     "imageUrl": "images/items/book.jpg",
-    // 📍 綁定給一般用戶 (測試帳號)
     "publisherEmail": "user@kimi.com",
-    "publisherName": "一般探索者"
+    "publisherName": "一般探索者",
+    // 📍 新增聯絡資訊
+    "contact": "0912-345-678" 
   },
   {
     "id": "item_003",
@@ -42,9 +44,10 @@ const mockItems = [
     "date": "2026-06-05",
     "description": "黑色硬殼素描本，裡面畫滿了各種天空與彗星的草圖。",
     "imageUrl": "images/items/sketch.avif",
-    // 📍 綁定給管理員
     "publisherEmail": "admin@kimi.com",
-    "publisherName": "超級管理員"
+    "publisherName": "超級管理員",
+    // 📍 新增聯絡資訊
+    "contact": "Line ID: admin_kimi" 
   },
   {
     "id": "item_004",
@@ -58,7 +61,9 @@ const mockItems = [
     "description": "螢幕有大面積碎裂，手機殼是深藍色的星空圖案，已沒電關機。",
     "imageUrl": "images/items/phone.avif",
     "publisherEmail": "stranger@kimi.com",
-    "publisherName": "路人甲"
+    "publisherName": "路人甲",
+    // 📍 新增聯絡資訊
+    "contact": "目前已交由虎頭山公園管理處保管" 
   },
   {
     "id": "item_005",
@@ -72,6 +77,8 @@ const mockItems = [
     "description": "精裝版的天文觀測圖鑑，內附多張高解析度星空照片。",
     "imageUrl": "images/items/guide.avif",
     "publisherEmail": "stranger@kimi.com",
-    "publisherName": "路人乙"
+    "publisherName": "路人乙",
+    // 📍 新增聯絡資訊
+    "contact": "0987-654-321" 
   }
 ];
