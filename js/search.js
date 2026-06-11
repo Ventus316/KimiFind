@@ -59,17 +59,18 @@ $(document).ready(function() {
         // 先將容器內容以淡出動畫隱藏，營造流暢切換感
         $resultsContainer.fadeOut(200, function() {
             
+            // 🌟 關鍵修復 1：把外層正確的 DOM 元素存入變數 $container
+            const $container = $(this);
+            
             // 動畫結束後，清空舊節點
-            $(this).empty();
+            $container.empty();
 
             // 執行資料篩選
             const filteredItems = mockItems.filter(function(item) {
-                // 條件 A：關鍵字比對 (比對名稱或描述，若關鍵字為空則全過)
                 const matchKeyword = keyword === '' || 
                                      item.name.includes(keyword) || 
                                      item.description.includes(keyword);
                 
-                // 條件 B：標籤比對 (比對行政區或類別)
                 const matchFilter = filter === '全部地區' || 
                                     item.district === filter || 
                                     item.category === filter;
@@ -79,7 +80,6 @@ $(document).ready(function() {
 
             // 判斷是否有符合條件的資料
             if (filteredItems.length === 0) {
-                // 找不到資料的防呆畫面
                 const emptyHTML = `
                     <div class="col-span-1 md:col-span-3 lg:col-span-4 text-center py-16">
                         <div class="text-4xl mb-4">🌌</div>
@@ -87,13 +87,13 @@ $(document).ready(function() {
                         <p class="text-gray-500">找不到符合條件的遺失物，換個關鍵字或標籤試試看吧！</p>
                     </div>
                 `;
-                $(this).append(emptyHTML);
+                $container.append(emptyHTML);
             } else {
-                // 遍歷篩選後的資料，產生新節點
+                // 🌟 關鍵修復 2：補回你漏掉的 forEach 開頭
                 filteredItems.forEach(function(item) {
                     let statusColorClass = item.status === '尋找中' 
-                        ? 'bg-white/90 text-twilight' 
-                        : 'bg-green-100 text-green-700';
+                            ? 'bg-white/90 text-twilight' 
+                            : 'bg-green-100 text-green-700';
 
                     const cardHTML = `
                         <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300 border border-gray-100">
@@ -114,12 +114,16 @@ $(document).ready(function() {
                             </div>
                         </div>
                     `;
-                    $(this).append(cardHTML);
+                    // 🌟 關鍵修復 3：統一使用 $container，就不會有 this 指向錯誤的問題
+                    $container.append(cardHTML);
                 });
             }
 
             // 新節點附加完畢後，執行淡入動畫
-            $(this).fadeIn(300);
+            $container.fadeIn(300);
         });
     }
+
+    // 新節點附加完畢後，執行淡入動畫
+    $(this).fadeIn(300);
 });
