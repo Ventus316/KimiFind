@@ -10,7 +10,7 @@ const mockItems = [
     "date": "2026-06-10",
     "status": "尋找中",
     "description": "手工編織的紅色結繩，對失主來說是非常重要的物品，希望能盡快找回。",
-    "imageUrl": "images/items/musubi.jpg"
+    "imageUrl": "images/items/musubi.avif"
   },
   {
     "id": "item_002",
@@ -32,7 +32,7 @@ const mockItems = [
     "date": "2026-06-05",
     "status": "尋找中",
     "description": "黑色硬殼素描本，裡面畫滿了各種天空與彗星的草圖。",
-    "imageUrl": "images/items/sketch.jpg"
+    "imageUrl": "images/items/sketch.avif"
   },
   {
     "id": "item_004",
@@ -43,7 +43,7 @@ const mockItems = [
     "date": "2026-06-01",
     "status": "已歸還",
     "description": "螢幕有大面積碎裂，手機殼是深藍色的星空圖案，已沒電關機。",
-    "imageUrl": "images/items/phone.jpg"
+    "imageUrl": "images/items/phone.avif"
   },
   {
     "id": "item_005",
@@ -54,6 +54,6 @@ const mockItems = [
     "date": "2026-05-28",
     "status": "尋找中",
     "description": "精裝版的天文觀測圖鑑，內附多張高解析度星空照片。",
-    "imageUrl": "images/items/guide.jpg"
+    "imageUrl": "images/items/guide.avif"
   }
 ];

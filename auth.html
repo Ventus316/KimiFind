@@ -1,4 +1,28 @@
-<main class="min-h-screen flex items-center justify-center bg-gradient-to-br from-twilight via-dusk to-blue-200 px-4 pt-16">
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { musubi: '#E63946', twilight: '#1D3557', dusk: '#457B9D' } } } }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/data.js"></script>
+</head>
+<body class="bg-gray-50">
+
+    <nav class="fixed w-full z-50 bg-white/70 backdrop-blur-md shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="index.html" class="text-xl font-bold text-twilight tracking-widest">桃園拾物 <span class="text-musubi text-sm">KimiFind</span></a>
+            <div class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="search.html" class="hover:text-musubi transition-colors">失物搜尋</a>
+                <a href="report.html" class="hover:text-musubi transition-colors">失物上報</a>
+                <a href="guide.html" class="hover:text-musubi transition-colors">歸還認領</a>
+                <a href="dashboard.html" class="hover:text-musubi transition-colors">個人後台</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="min-h-screen flex items-center justify-center bg-gradient-to-br from-twilight via-dusk to-blue-200 px-4 pt-16">
         <div class="w-full max-w-md bg-white/80 backdrop-blur-lg p-8 rounded-3xl shadow-2xl border border-white/50">
             <div class="text-center mb-8">
                 <h1 class="text-3xl font-bold text-twilight tracking-widest mb-2">登入 KimiFind</h1>
@@ -30,3 +54,10 @@
             </div>
         </div>
     </main>
+
+    <footer class="bg-twilight text-white text-center py-6 text-sm">
+        <p>&copy; 2026 桃園拾物 KimiFind. All rights reserved.</p>
+    </footer>
+    
+</body>
+</html>

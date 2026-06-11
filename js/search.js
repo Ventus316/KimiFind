@@ -98,9 +98,8 @@ $(document).ready(function() {
                     const cardHTML = `
                         <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300 border border-gray-100">
                             <div class="h-48 bg-gray-200 relative overflow-hidden">
-                                <div class="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center text-gray-500 text-xs font-bold">
-                                    ${item.imageUrl}
-                                </div>
+                                <img src="${item.imageUrl}" alt="${item.name}" class="w-full h-full object-cover">
+                                
                                 <div class="absolute top-3 right-3 ${statusColorClass} backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold shadow-sm">
                                     ${item.status}
                                 </div>
