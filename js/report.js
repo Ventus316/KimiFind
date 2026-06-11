@@ -1,6 +1,13 @@
 // js/report.js
 
 $(document).ready(function() {
+    // 🌟 動態渲染分類下拉選單
+    const categories = JSON.parse(localStorage.getItem('kimiCategories')) || ['飾品', '書籍', '電子產品', '文具'];
+    const $categorySelect = $('#item-category');
+    $categorySelect.empty();
+    categories.forEach(cat => {
+        $categorySelect.append(`<option value="${cat}">${cat}</option>`);
+    });
     // 🛡️ 路由守衛：進入頁面先檢查是否已登入
     const currentUserStr = localStorage.getItem('kimiUser');
     if (!currentUserStr) {

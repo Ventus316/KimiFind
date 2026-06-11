@@ -1,51 +1,45 @@
 // js/search.js
 
 $(document).ready(function() {
-    if (typeof mockItems === 'undefined') {
-        console.error('找不到假資料庫 (mockItems)！');
-        return;
-    }
+    if (typeof mockItems === 'undefined') return;
 
-    // 將 localStorage 中的使用者新增資料合併進 mockItems
+    // 1. 合併資料並過濾黑名單
     const localReportsStr = localStorage.getItem('kimiReports');
-    const allItems = localReportsStr ? mockItems.concat(JSON.parse(localReportsStr)) : mockItems;
+    let allItems = localReportsStr ? mockItems.concat(JSON.parse(localReportsStr)) : mockItems;
+    
+    let deletedPosts = JSON.parse(localStorage.getItem('kimiDeletedPosts')) || [];
+    allItems = allItems.filter(item => !deletedPosts.includes(item.id));
+
+    // 2. 🌟 動態渲染地區與分類標籤
+    const categories = JSON.parse(localStorage.getItem('kimiCategories')) || ['飾品', '書籍', '電子產品', '文具'];
+    const districts = ['桃園區', '中壢區', '八德區', '龜山區', '蘆竹區'];
+    const $catGroup = $('.filter-group[data-group="category"]');
+    
+    $catGroup.empty();
+    $catGroup.append(`<span class="filter-pill px-4 py-1.5 bg-musubi text-white text-sm rounded-full cursor-pointer shadow-sm active" data-val="全部">全部地區/分類</span>`);
+    districts.forEach(dist => {
+        $catGroup.append(`<span class="filter-pill px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm rounded-full cursor-pointer transition" data-val="${dist}">${dist}</span>`);
+    });
+    categories.forEach(cat => {
+        $catGroup.append(`<span class="filter-pill px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm rounded-full cursor-pointer transition" data-val="${cat}">${cat}</span>`);
+    });
 
     const $searchInput = $('input[type="text"]');
     const $searchBtn = $('button:contains("搜尋")');
     const $resultsContainer = $('#search-results');
 
-    // 狀態變數：紀錄多維度的搜尋條件
-    let filters = {
-        keyword: '',
-        typeStatus: '全部',
-        category: '全部'
-    };
+    let filters = { keyword: '', typeStatus: '全部', category: '全部' };
 
     renderSearchResults();
 
-    // 1. 搜尋框事件
-    $searchBtn.on('click', function() {
-        filters.keyword = $searchInput.val().trim();
-        renderSearchResults();
-    });
-    $searchInput.on('keypress', function(e) {
-        if (e.which === 13) {
-            filters.keyword = $(this).val().trim();
-            renderSearchResults();
-        }
-    });
-
-    // 2. 點擊篩選標籤事件 (支援多群組獨立切換)
-    $('.filter-pill').on('click', function() {
+    $('.filter-group').on('click', '.filter-pill', function() {
         const $this = $(this);
         const group = $this.closest('.filter-group').data('group');
         const val = $this.data('val');
 
-        // 更新該群組的 UI 樣式
         $this.siblings().removeClass('bg-musubi text-white shadow-sm active').addClass('bg-gray-100 text-gray-600');
         $this.removeClass('bg-gray-100 text-gray-600').addClass('bg-musubi text-white shadow-sm active');
 
-        // 更新篩選條件
         if (group === 'type-status') filters.typeStatus = val;
         if (group === 'category') filters.category = val;
 
