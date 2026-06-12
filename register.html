@@ -47,13 +47,40 @@
             $('#register-form').on('submit', function(e) {
                 e.preventDefault();
                 
-                // 模擬註冊過程
+                const name = $('#reg-name').val().trim();
+                const email = $('#reg-email').val().trim();
+                const pwd = $('#reg-pwd').val().trim();
+
+                // 1. 取得全站用戶資料庫 (若無則初始化預設假資料)
+                let allUsers = JSON.parse(localStorage.getItem('kimiAllUsers')) || [
+                    { email: 'admin@kimi.com', name: '超級管理員', role: 'admin', pwd: '123456' },
+                    { email: 'user@kimi.com', name: '一般探索者', role: 'user', pwd: '123456' },
+                    { email: 'stranger@kimi.com', name: '路人甲', role: 'user', pwd: '123456' }
+                ];
+
+                // 2. 檢查信箱是否已被註冊
+                const isExist = allUsers.some(u => u.email === email);
+                if (isExist) {
+                    alert('這個電子郵件已經被註冊過囉，請直接登入或換一個信箱！');
+                    return;
+                }
+                
+                // 3. 模擬註冊處理過場
                 const $btn = $('#reg-btn');
                 $btn.text('處理中...').prop('disabled', true).addClass('bg-gray-400');
 
                 setTimeout(() => {
+                    // 4. 將新用戶推入陣列並存回 localStorage (預設身分皆為 user)
+                    allUsers.push({
+                        email: email,
+                        name: name,
+                        role: 'user',
+                        pwd: pwd // 實際專案密碼需加密，此為前端模擬
+                    });
+                    localStorage.setItem('kimiAllUsers', JSON.stringify(allUsers));
+
                     alert('註冊成功！請使用新帳號登入。');
-                    window.location.href = 'login.html'; // 註冊完跳轉登入
+                    window.location.href = 'login.html'; 
                 }, 1000);
             });
         });

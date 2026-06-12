@@ -24,9 +24,9 @@ $(document).ready(function() {
     // 建立假用戶名單
     if (!localStorage.getItem('kimiAllUsers')) {
         const defaultUsers = [
-            { email: 'admin@kimi.com', name: '超級管理員', role: 'admin' },
-            { email: 'user@kimi.com', name: '一般探索者', role: 'user' },
-            { email: 'stranger@kimi.com', name: '路人甲', role: 'user' }
+            { email: 'admin@kimi.com', name: '超級管理員', role: 'admin', pwd: '123456' },
+            { email: 'user@kimi.com', name: '一般探索者', role: 'user', pwd: '123456' },
+            { email: 'stranger@kimi.com', name: '路人甲', role: 'user', pwd: '123456' }
         ];
         localStorage.setItem('kimiAllUsers', JSON.stringify(defaultUsers));
     }

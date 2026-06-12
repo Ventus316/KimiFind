@@ -43,27 +43,38 @@
     <script>
         $(document).ready(function() {
             $('#login-form').on('submit', function(e) {
-                e.preventDefault(); // 阻止表單預設送出
+                e.preventDefault(); 
                 
                 const email = $('#email').val().trim();
                 const pwd = $('#password').val().trim();
                 
-                // 模擬登入驗證
-                if (email === 'admin@kimi.com' && pwd === '123456') {
-                    // 登入為管理員
-                    const user = { name: '超級管理員', email: email, role: 'admin' };
-                    localStorage.setItem('kimiUser', JSON.stringify(user));
-                    alert('登入成功！即將前往管理員後台。');
-                    window.location.href = 'admin.html';
-                } 
-                else if (email === 'user@kimi.com' && pwd === '123456') {
-                    // 登入為一般用戶
-                    const user = { name: '一般探索者', email: email, role: 'user' };
-                    localStorage.setItem('kimiUser', JSON.stringify(user));
-                    alert('登入成功！即將前往您的個人後台。');
-                    window.location.href = 'dashboard.html';
-                } 
-                else {
+                // 1. 取得全站用戶資料庫
+                let allUsers = JSON.parse(localStorage.getItem('kimiAllUsers')) || [
+                    { email: 'admin@kimi.com', name: '超級管理員', role: 'admin', pwd: '123456' },
+                    { email: 'user@kimi.com', name: '一般探索者', role: 'user', pwd: '123456' },
+                    { email: 'stranger@kimi.com', name: '路人甲', role: 'user', pwd: '123456' }
+                ];
+                
+                // 2. 驗證帳號密碼
+                const matchedUser = allUsers.find(u => u.email === email && u.pwd === pwd);
+
+                if (matchedUser) {
+                    // 3. 登入成功，將登入狀態寫入 (為安全考量，Session 不存密碼)
+                    const userSession = { 
+                        name: matchedUser.name, 
+                        email: matchedUser.email, 
+                        role: matchedUser.role 
+                    };
+                    localStorage.setItem('kimiUser', JSON.stringify(userSession));
+                    
+                    if (matchedUser.role === 'admin') {
+                        alert('登入成功！即將前往管理員後台。');
+                        window.location.href = 'admin.html';
+                    } else {
+                        alert('登入成功！即將前往您的個人後台。');
+                        window.location.href = 'dashboard.html';
+                    }
+                } else {
                     // 登入失敗
                     $('#error-msg').removeClass('hidden');
                 }
