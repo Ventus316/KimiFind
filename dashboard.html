@@ -15,6 +15,14 @@
 
     <main class="pt-24 pb-16 min-h-screen bg-gray-50">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="mb-6">
+                <button onclick="history.back()" class="flex items-center text-gray-500 hover:text-musubi font-bold transition group">
+                    <svg class="w-5 h-5 mr-1 transform group-hover:-translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    返回
+                </button>
+            </div>
+
             <div class="flex items-center justify-between mb-8">
                 <h1 class="text-3xl font-bold text-twilight">個人管理後台</h1>
                 <div class="bg-white px-4 py-2 rounded-full shadow-sm text-sm font-bold text-gray-600">
@@ -30,6 +38,25 @@
 
             <div id="dashboard-list" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden min-h-[200px]">
                 </div>
+        </div>
+
+        <div id="edit-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-twilight/40 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+            <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md mx-4 transform scale-95 transition-transform duration-300" id="edit-modal-content">
+                <h3 class="text-2xl font-bold text-twilight mb-6 text-center">修改物品資訊</h3>
+                <input type="hidden" id="edit-id"> 
+                <div class="mb-4">
+                    <label class="block text-sm font-bold text-gray-700 mb-2">物品名稱</label>
+                    <input type="text" id="edit-name" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-musubi">
+                </div>
+                <div class="mb-8">
+                    <label class="block text-sm font-bold text-gray-700 mb-2">詳細特徵描述</label>
+                    <textarea id="edit-desc" rows="4" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-musubi"></textarea>
+                </div>
+                <div class="flex justify-end gap-3">
+                    <button type="button" id="cancel-edit-btn" class="px-5 py-3 rounded-xl text-gray-500 hover:bg-gray-100 font-bold transition">取消</button>
+                    <button type="button" id="save-edit-btn" class="px-5 py-3 rounded-xl bg-musubi text-white font-bold hover:bg-red-600 shadow-md transition">儲存修改</button>
+                </div>
+            </div>
         </div>
     </main>
 
