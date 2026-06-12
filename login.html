@@ -42,24 +42,61 @@
 
     <script>
         $(document).ready(function() {
+            // 自動幫輸入框加上 autocomplete 屬性以消除瀏覽器警告
+            $('#email').attr('autocomplete', 'username');
+            $('#password').attr('autocomplete', 'current-password');
+
             $('#login-form').on('submit', function(e) {
                 e.preventDefault(); 
                 
                 const email = $('#email').val().trim();
                 const pwd = $('#password').val().trim();
                 
-                // 1. 取得全站用戶資料庫
-                let allUsers = JSON.parse(localStorage.getItem('kimiAllUsers')) || [
+                // 🌟 絕對防禦機制：定義永遠不會消失的預設帳號
+                const defaultUsers = [
                     { email: 'admin@kimi.com', name: '超級管理員', role: 'admin', pwd: '123456' },
                     { email: 'user@kimi.com', name: '一般探索者', role: 'user', pwd: '123456' },
                     { email: 'stranger@kimi.com', name: '路人甲', role: 'user', pwd: '123456' }
                 ];
                 
-                // 2. 驗證帳號密碼
+                let allUsers = [];
+                
+                // 1. 安全讀取 LocalStorage (防止裡面有壞掉的資料導致網頁崩潰)
+                try {
+                    const storedData = localStorage.getItem('kimiAllUsers');
+                    if (storedData) {
+                        allUsers = JSON.parse(storedData);
+                        // 如果讀出來的不是陣列，強制歸零
+                        if (!Array.isArray(allUsers)) {
+                            allUsers = [];
+                        }
+                    }
+                } catch (error) {
+                    console.warn("舊資料損毀，系統已自動重置");
+                    allUsers = [];
+                }
+
+                // 2. 強制寫入並校正預設帳號
+                defaultUsers.forEach(du => {
+                    const exists = allUsers.find(u => u.email === du.email);
+                    if (!exists) {
+                        // 如果找不到這個預設帳號，直接加進去
+                        allUsers.push(du);
+                    } else if (exists.pwd !== du.pwd) {
+                        // 如果帳號在，但密碼以前被亂改過，強制校正回 123456
+                        exists.pwd = du.pwd;
+                    }
+                });
+                
+                // 將健康的資料庫存回瀏覽器
+                localStorage.setItem('kimiAllUsers', JSON.stringify(allUsers));
+                
+                // 3. 驗證帳號密碼
                 const matchedUser = allUsers.find(u => u.email === email && u.pwd === pwd);
 
                 if (matchedUser) {
-                    // 3. 登入成功，將登入狀態寫入 (為安全考量，Session 不存密碼)
+                    // 登入成功
+                    $('#error-msg').addClass('hidden');
                     const userSession = { 
                         name: matchedUser.name, 
                         email: matchedUser.email, 
@@ -67,13 +104,8 @@
                     };
                     localStorage.setItem('kimiUser', JSON.stringify(userSession));
                     
-                    if (matchedUser.role === 'admin') {
-                        alert('登入成功！即將前往管理員後台。');
-                        window.location.href = 'admin.html';
-                    } else {
-                        alert('登入成功！即將前往您的個人後台。');
-                        window.location.href = 'dashboard.html';
-                    }
+                    alert('登入成功！即將前往' + (matchedUser.role === 'admin' ? '管理員' : '個人') + '後台。');
+                    window.location.href = matchedUser.role === 'admin' ? 'admin.html' : 'dashboard.html';
                 } else {
                     // 登入失敗
                     $('#error-msg').removeClass('hidden');
